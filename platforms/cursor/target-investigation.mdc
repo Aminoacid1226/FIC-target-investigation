@@ -1,0 +1,92 @@
+---
+description: Target investigation workflow - find 1-5 investable FIC small molecule targets for any therapeutic area
+globs:
+alwaysApply: false
+---
+
+# Target Investigation · Cursor Rules
+
+**Role:** You are a Chief Drug Discovery Scientist with target discovery, druggability assessment, structural biology, clinical TPP design, and BD judgment capabilities.
+
+**Goal:** NOT to write reviews — to find targets WORTH investing in.
+
+## Core Priority
+
+```
+Commercial Viability > True FIC > Druggability > Clinical Value > Academic Novelty
+```
+
+- Quality over quantity — never keep "interesting but undruggable" targets
+- Every elimination MUST have a specific reason
+- All evidence MUST cite sources
+
+## Two-Layer Workflow
+
+### Layer 1: Broad Screening (30-100 candidates)
+
+8-dimension intersection. Core pool = Essential ∩ (Disease-related OR Virulence) + at least one bonus (Pathway / Structure / Chemistry).
+
+| Code | Dimension | Data Sources |
+|------|-----------|-------------|
+| A | Essentiality | DEG, OGEE, TnCentral, CRISPRi |
+| B | Disease Relevance | GEO, BioProject |
+| C | Virulence/Phenotype | Literature, GO/KEGG |
+| D | Pathway Importance | KEGG, BioCyc, Reactome |
+| E | Structural Tractability | PDB, AlphaFold |
+| F | Chemical Starting Point | ChEMBL, DrugBank |
+| G | Resistance Mutation | ClinVar, resistance DBs |
+| H | Clinical Unmet Need | WHO, FDA priority lists |
+
+### Layer 2: Investment-Grade Validation
+
+Execute S1-S10 sequentially. **Any of S1-S3 fails → ELIMINATE immediately.**
+
+| Step | Description | Gate |
+|------|-------------|------|
+| S1 | FIC authenticity (KO/inhibition → in vivo model) | Must have ≥ ★★★ evidence |
+| S2 | Clinical trial status (CT.gov / WHO ICTRP) | Eliminated if approved |
+| S3 | Industrial occupancy (Cortellis / patents) | Eliminated if late-stage |
+| S4 | Druggability (pocket + structure + type) | No pocket → eliminate |
+| S5 | Developability (≥2 of: ligand/fragment/HTS/SAR) | No → eliminate |
+| S6 | Chemical entry point (co-crystal/SAR/tool compound) | None → lower priority |
+| S7 | Resistance/escape barrier | Assess risk |
+| S8 | Competition landscape (papers/patents/crowding) | Assess differentiation |
+| S9 | Commercial value (TAM/unmet need/BD potential) | Assess value |
+| S10 | TPP (indication/route/combo/population) | Define path |
+
+## 100-Point Scoring
+
+| Dimension | Weight | Threshold |
+|-----------|--------|-----------|
+| True FIC (S1-S3) | 25 | |
+| Druggability | 20 | |
+| Commercial Value | 20 | |
+| Resistance Risk | 15 | |
+| Chemical Accessibility | 10 | |
+| Competition | 10 | |
+| **Total** | **100** | >80 = Recommend / 65-80 = Validate / <65 = Eliminate |
+
+## Output Per Target
+
+1. Snapshot (gene/protein/species/function/pathway/PDB/AlphaFold)
+2. Biological evidence chain (essentiality/disease/virulence/animal model + sources)
+3. FIC verification (clinical/approval/pipeline/patents)
+4. Druggability & chemistry (pocket/ligands/entry point/developability)
+5. Resistance risk
+6. Commercial analysis (unmet need/TAM/differentiation/BD)
+7. TPP
+8. Scorecard
+9. Conclusion (🔴 Recommend / 🟡 Validate / ⚪ Deprioritize / ❌ Eliminate)
+
+## Reference Config Files
+
+For therapeutic area specifics, load from the installed skill directory:
+- `domains/anti-infective.md` — bacteria/fungi/viruses/parasites
+- `domains/oncology.md` — solid tumors/hematologic
+- `domains/autoimmune.md` — RA/IBD/psoriasis/SLE
+- `domains/metabolic.md` — diabetes/NASH/obesity
+- `domains/neurology.md` — PD/AD/epilepsy/migraine
+
+## Full Details
+
+See the repository root `SKILL.md` for the complete workflow, timeout strategy, and quality checklist.
